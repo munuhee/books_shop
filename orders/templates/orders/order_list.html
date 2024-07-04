@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2>Your Orders</h2>
+{% if orders %}
+  <ul>
+    {% for order in orders %}
+      <li>
+        <a href="{% url 'order_details' order.id %}">Order #{{ order.id }}</a> -
+        Total Amount: ${{ order.total_amount }} -
+        Status: {{ order.get_status_display }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>You haven't placed any orders yet.</p>
+{% endif %}
+{% endblock %}

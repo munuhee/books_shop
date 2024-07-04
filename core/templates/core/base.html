@@ -1,0 +1,211 @@
+{% load static %}
+{% load cart_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Your Site Title{% endblock %}</title>
+    <!-- Include Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Other CSS or custom stylesheets -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="{% url 'home' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">eBook Shop</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                {% if user.is_authenticated %}
+                    <div class="relative">
+                        <button type="button" class="flex items-center text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Account
+                        </button>
+                        <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
+                            <a href="{% url 'profile_view' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                            <a href="{% url 'order_list' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Orders</a>
+                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Sign out</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Get started</a>
+                {% endif %}
+                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                    <li>
+                        <a href="{% url 'home' %}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-green-700 md:p-0 md:dark:hover:text-green-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'ebook_list' %}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-green-700 md:p-0 md:dark:hover:text-green-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Books</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        {% cart_total_quantity as total_quantity %}
+                        <li>
+                            <a href="{% url 'view_cart' %}" class="cart-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="cart-badge">{{ total_quantity }}</span>
+                            </a>
+                        </li>
+                    {% else %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <main class=" flex flex-col min-h-screen container mx-auto flex-grow mt-20">
+        {% block content %}
+        <!-- This block will be overridden by child templates -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-green-800 mt-auto">
+        <div class="container mx-auto p-0 md:p-8 xl:px-0">
+            <div class="mx-auto max-w-7xl px-6 pb-10 pt-16">
+                <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+                    <div class="space-y-4">
+                        <div>
+                            <a href="/">
+                                <div class="flex items-center space-x-2 text-2xl font-medium">
+                                    <span>
+                                        <img src="https://www.svgrepo.com/show/452102/slack.svg" alt="eBook Shop Logo" width="64" height="64" class="w-16">
+                                    </span>
+                                    <span class="text-white">eBook Shop</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="max-w-md pr-16 text-md text-gray-200">Discover a vast collection of eBooks across various genres. Enjoy exclusive deals and seamless reading experience.</div>
+                        <div class="flex space-x-2">
+                            <a href="https://www.linkedin.com" target="_blank" class="text-gray-200 hover:text-gray-200">
+                                <span class="sr-only">LinkedIn</span>
+                                <svg fill="currentColor" viewBox="0 0 24 24" class="h-6 w-6" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                            <a href="https://www.twitter.com" target="_blank" class="text-gray-200 hover:text-gray-200">
+                                <span class="sr-only">Twitter</span>
+                                <svg fill="currentColor" viewBox="0 0 24 24" class="h-6 w-6" aria-hidden="true">
+                                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+                        <div class="md:grid md:grid-cols-2 md:gap-8">
+                            <div>
+                                <h3 class="text-md font-semibold leading-6 text-white">Shop</h3>
+                                <ul role="list" class="mt-6 space-y-4">
+                                    <li>
+                                        <a href="/categories/fiction" class="text-md leading-6 text-gray-300 hover:text-gray-50">Fiction</a>
+                                    </li>
+                                    <li>
+                                        <a href="/categories/non-fiction" class="text-md leading-6 text-gray-300 hover:text-gray-50">Non-Fiction</a>
+                                    </li>
+                                    <li>
+                                        <a href="/categories/children" class="text-md leading-6 text-gray-300 hover:text-gray-50">Children's Books</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-10 md:mt-0">
+                                <h3 class="text-md font-semibold leading-6 text-white">Support</h3>
+                                <ul role="list" class="mt-6 space-y-4">
+                                    <li>
+                                        <a href="/help" class="text-md leading-6 text-gray-300 hover:text-gray-50">Help Center</a>
+                                    </li>
+                                    <li>
+                                        <a href="/contact" class="text-md leading-6 text-gray-300 hover:text-gray-50">Contact Us</a>
+                                    </li>
+                                    <li>
+                                        <a href="/faq" class="text-md leading-6 text-gray-300 hover:text-gray-50">FAQs</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="md:grid md:grid-cols-2 md:gap-8">
+                            <div>
+                                <h3 class="text-md font-semibold leading-6 text-white">About</h3>
+                                <ul role="list" class="mt-6 space-y-4">
+                                    <li>
+                                        <a href="/about" class="text-md leading-6 text-gray-300 hover:text-gray-50">About Us</a>
+                                    </li>
+                                    <li>
+                                        <a href="/blog" class="text-md leading-6 text-gray-300 hover:text-gray-50">Blog</a>
+                                    </li>
+                                    <li>
+                                        <a href="/careers" class="text-md leading-6 text-gray-300 hover:text-gray-50">Careers</a>
+                                    </li>
+                                    <li>
+                                        <a href="/privacy" class="text-md leading-6 text-gray-300 hover:text-gray-50">Privacy Policy</a>
+                                    </li>
+                                    <li>
+                                        <a href="/terms" class="text-md leading-6 text-gray-300 hover:text-gray-50">Terms of Service</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-10 md:mt-0">
+                                <h3 class="text-md font-semibold leading-6 text-white">Social Media</h3>
+                                <ul role="list" class="mt-6 space-y-4">
+                                    <li>
+                                        <a href="https://www.facebook.com" class="text-md leading-6 text-gray-300 hover:text-gray-50">Facebook</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.instagram.com" class="text-md leading-6 text-gray-300 hover:text-gray-50">Instagram</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.linkedin.com" class="text-md leading-6 text-gray-300 hover:text-gray-50">LinkedIn</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.twitter.com" class="text-md leading-6 text-gray-300 hover:text-gray-50">Twitter</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-16 border-t border-gray-400/30 pt-8 sm:mt-20 lg:mt-24">
+                    <div class="text-md text-center text-white">
+                        Copyright © 2024. Crafted with
+                        <span class="text-gray-50">♥</span> by book lovers at
+                        <a rel="noopener" href="/">eBook Shop.
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
+        <div class="flex items-center justify-center h-screen">
+            <div class="relative">
+                <div class="h-24 w-24 rounded-full border-t-8 border-b-8 border-gray-200"></div>
+                <div class="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-green-500 animate-spin">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Ensure you have jQuery loaded before this script if you are using jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <!-- Include any other scripts you need -->
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,27 @@
+body{
+    margin: 0;
+    min-height: 100%;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff4500;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border: 2px solid white;
+}
+
+.cart-icon {
+    position: relative;
+    display: inline-block;
+    font-size: 24px; /* Adjust as needed */
+    color: black; /* Icon color */
+}

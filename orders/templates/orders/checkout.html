@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
+  <div class="px-4 pt-8">
+    <p class="text-xl font-medium">Order Summary</p>
+    <p class="text-gray-400">Check your items.</p>
+    <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
+      {% for item in order_items %}
+      <div class="flex flex-col rounded-lg bg-white sm:flex-row">
+        <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="{{ item.ebook.cover_image.url }}" alt="" />
+        <div class="flex w-full flex-col px-4 py-4">
+          <span class="font-semibold">{{ item.ebook.title }}</span>
+          <!-- Adjust your display as needed -->
+          <span class="float-right text-gray-400">Quantity: {{ item.quantity }}</span>
+          <p class="text-lg font-bold">${{ item.ebook.price }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="mt-10 bg-gray-50  shadow-md px-4 pt-8 lg:mt-0">
+    <p class="text-xl font-medium">Payment Details</p>
+    <p class="text-gray-400">Complete your order by providing your shipping and billing address</p>
+    <!-- Payment form fields -->
+    <div class="bg-white rounded-lg px-8 py-6">
+      <h2 class="text-xl font-semibold mb-4">Addresses</h2>
+      <ul class="divide-y divide-gray-200">
+          {% for address in addresses %}
+          <li class="py-2">
+              <span class="font-semibold">
+                {% if address.address_type == 'S' %}
+                  Shipping :
+                {% else %}
+                  Billing :
+                {% endif %}
+              </span>
+              <span>{{ address.street_address }}, {{ address.city }}, {{ address.country }}</span>
+              <a href="{% url 'address_update' address.id %}" class="ml-2 text-blue-500 hover:underline">Update</a>
+          </li>
+          {% empty %}
+          <li class="py-2">No addresses found.</li>
+          {% endfor %}
+      </ul>
+    </div>
+    <div class="">
+      <!-- Replace with your form fields and dynamic values -->
+      <div class="mt-6 border-t border-b py-2">
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-medium text-gray-900">Subtotal</p>
+          <p class="font-semibold text-gray-900">${{ subtotal }}</p>
+        </div>
+        <div class="flex items-center justify-between">
+          <p class="text-sm font-medium text-gray-900">Shipping</p>
+          <p class="font-semibold text-gray-900">${{ shipping }}</p>
+        </div>
+      </div>
+      <div class="mt-6 flex items-center justify-between">
+        <p class="text-sm font-medium text-gray-900">Total</p>
+        <p class="text-2xl font-semibold text-gray-900">${{ total }}</p>
+      </div>
+      <!-- Your input fields -->
+      <button class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
+    </div>
+  </div>
+</div>
+{% endblock %}

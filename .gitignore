@@ -1,0 +1,42 @@
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore environment-specific settings
+.env
+
+# Ignore database files
+db.sqlite3
+
+# Ignore static files collected by Django
+/staticfiles/
+
+# Ignore media files
+/media/
+
+# Ignore development settings
+*.log
+*.bak
+*.swp
+*~
+
+# Ignore local configuration
+local_settings.py
+
+# Ignore IDE/editor specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore Python virtual environment
+venv/
+env/
+
+# Ignore Docker related files if applicable
+Dockerfile
+.dockerignore
+
+# Ignore any other files generated during development or by your operating system
+*.DS_Store
+Thumbs.db

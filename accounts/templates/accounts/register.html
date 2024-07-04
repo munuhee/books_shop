@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Register - Your Site Title{% endblock %}
+
+{% block content %}
+<div class="h-full bg-gray-400 dark:bg-gray-900">
+    <div class="mx-auto">
+        <div class="flex justify-center px-6 py-12">
+            <div class="w-full xl:w-3/4 lg:w-11/12 flex">
+                <div class="w-full h-auto bg-gray-400 dark:bg-gray-800 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
+                    style="background-image: url('https://source.unsplash.com/Mv9hjnEUHR4/600x800')"></div>
+                <div class="w-full lg:w-7/12 bg-white dark:bg-gray-700 p-5 rounded-lg lg:rounded-l-none">
+                    <h3 class="py-4 text-2xl text-center text-gray-800 dark:text-white">Create an Account!</h3>
+                    <form class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded" method="post">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <div class="mb-4 md:flex md:justify-between">
+                            <div class="mb-4 md:mr-2 md:mb-0">
+                                {{ form.first_name.label_tag }}
+                                {{ form.first_name }}
+								<p class="text-xs italic text-red-500">{{ form.first_name.errors }}.</p>
+                            </div>
+                            <div class="md:ml-2">
+                                {{ form.last_name.label_tag }}
+                                {{ form.last_name }}
+								<p class="text-xs italic text-red-500">{{ form.last_name.errors }}.</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+							<p class="text-xs italic text-red-500">{{ form.email.errors }}.</p>
+                        </div>
+						<div class="mb-4">
+                            {{ form.username.label_tag }}
+							{{ form.username}}
+							<p class="text-xs italic text-red-500">{{ form.username.errors }}.</p>
+                        </div>
+                        <div class="mb-4 md:flex md:justify-between">
+							<div class="mb-4 md:mr-2 md:mb-0 w-full">
+								{{ form.password1.label_tag }}
+								{{ form.password1 }}
+								<p class="text-xs italic text-red-500">{{ form.password1.errors }}</p>
+							</div>
+							<div class="md:ml-2 w-full">
+								{{ form.password2.label_tag }}
+								{{ form.password2 }}
+								<p class="text-xs italic text-red-500">{{ form.password2.errors }}</p>
+							</div>
+						</div>
+                        <div class="mb-6 text-center">
+                            <button class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
+                                type="submit">
+                                Register Account
+                            </button>
+                        </div>
+                        <hr class="mb-6 border-t" />
+                        <div class="text-center">
+                            <a class="inline-block text-sm text-blue-500 dark:text-blue-500 align-baseline hover:text-blue-800"
+                                href="{% url 'password_change' %}">
+                                Forgot Password?
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            <a class="inline-block text-sm text-blue-500 dark:text-blue-500 align-baseline hover:text-blue-800"
+                                href="{% url 'login' %}">
+                                Already have an account? Login!
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

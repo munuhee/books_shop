@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Login - Your Site Title{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+    <div class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+        <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+            <div class="mt-12 flex flex-col items-center">
+                <h1 class="text-2xl xl:text-3xl font-extrabold">
+                    Sign in
+                </h1>
+                <div class="w-full flex-1 mt-8">
+                    <form class="mx-auto max-w-xs" method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.password.label_tag }}
+                            {{ form.password }}
+                        </div>
+                        <button
+                            class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                            type="submit"
+                            >
+                            <span class="ml-3">
+                                Sign in
+                            </span>
+                        </button>
+                    </form>
+                </div>
+                <hr class="mb-6 border-t" />
+                <div class="text-center">
+                    <a class="inline-block text-sm text-blue-500 dark:text-blue-500 align-baseline hover:text-blue-800"
+                        href="{% url 'password_change' %}">
+                        Forgot Password?
+                    </a>
+                </div>
+                <div class="text-center">
+                    <a class="inline-block text-sm text-blue-500 dark:text-blue-500 align-baseline hover:text-blue-800"
+                        href="{% url 'register' %}">
+                        Don't have an account? Sign up!
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 bg-indigo-100 text-center hidden lg:flex">
+            <div class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
+                style="background-image: url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg');">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

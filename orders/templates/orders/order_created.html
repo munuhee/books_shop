@@ -1,0 +1,8 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h2>Order Confirmation</h2>
+<p>Your order (Order ID: {{ order.id }}) has been successfully created.</p>
+<p>Total Amount: ${{ order.total_amount }}</p>
+<p>Status: {{ order.get_status_display }}</p>
+<!-- You can add more details here as needed -->
+{% endblock %}
