@@ -33,10 +33,6 @@ local_settings.py
 venv/
 env/
 
-# Ignore Docker related files if applicable
-Dockerfile
-.dockerignore
-
 # Ignore any other files generated during development or by your operating system
 *.DS_Store
 Thumbs.db
