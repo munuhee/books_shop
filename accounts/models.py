@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
 
-class Profile(models.Model):
+class Customer(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        related_name='profile'
+        related_name='customer'
     )
     phone_number = models.CharField(
         max_length=15,
@@ -18,38 +18,7 @@ class Profile(models.Model):
     otp = models.CharField(max_length=6, blank=True)
 
     def __str__(self):
-        return f'{self.user.username} Profile'
-
-
-ADDRESS_TYPE_CHOICES = (
-    ('S', 'Shipping'),
-    ('B', 'Billing')
-)
-
-
-class Address(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='addresses'
-    )
-    street_address = models.CharField(max_length=100)
-    apartment_address = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)
-    country = models.CharField(max_length=50)
-    zip = models.CharField(max_length=10)
-    address_type = models.CharField(
-        max_length=1,
-        choices=ADDRESS_TYPE_CHOICES
-    )
-    default = models.BooleanField(default=False)
-
-    def __str__(self):
-        return (
-            f'{self.user.username}\'s'
-            f'{self.get_address_type_display()} Address'
-        )
+        return f'{self.user.username} Customer'
 
 
 class Wishlist(models.Model):
@@ -59,8 +28,8 @@ class Wishlist(models.Model):
         related_name='wishlist',
         verbose_name="User's Wishlist"
     )
-    ebooks = models.ManyToManyField(
-        'ebooks.EBook',
+    product = models.ManyToManyField(
+        'store.Product',
         related_name='wishlists',
         blank=True
     )
