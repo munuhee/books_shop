@@ -50,6 +50,7 @@ Ensure you have Python and pip installed on your system.
      EMAIL_HOST_USER='your_email@example.com'
      EMAIL_HOST_PASSWORD='your_email_password'
      ```
+     On `checkout.html` file replace `YOUR_CLIENT_ID` with your client id from paypal
 
 4. **Run database migrations:**
 
